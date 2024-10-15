@@ -1,5 +1,6 @@
 name: Build Next.js App
 on: push
+
 jobs:
   release-project:
     name: Release
@@ -19,10 +20,19 @@ jobs:
       - name: Create Github release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: $${{github.run_number}}
-          release_name: Release ${{github.run_number}}
+          tag_name: $${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
+      - name: Upload Release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_new_releases.outputs.upload_url}}
+          asset_path: ./site.zip
+          asset_name: site-v${{ github.run_number }}.zip
+          asset_content_type: application/zip
   build-project:
     name: Build project
     runs-on: ubuntu-latest
