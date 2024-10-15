@@ -19,9 +19,6 @@ jobs:
       - name: Build project assets
         run: npm run build
 
-      - name: Export static site
-        run: npm run export
-
       - name: List directory structure
         run: |
           ls -al
@@ -31,4 +28,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: static-site
-          path: out/
+          path: dist
