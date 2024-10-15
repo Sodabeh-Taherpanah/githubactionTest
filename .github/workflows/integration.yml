@@ -7,14 +7,25 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16" # Adjust Node.js version if necessary
+
       - name: Install NPM dependencies
         run: npm install
+
       - name: Build project assets
         run: npm run build
-      - name: Verify .next directory
-        run: ls -al .next/
+
+      - name: List directory structure
+        run: |
+          ls -al
+          ls -al .next/
+
       - name: Upload static site content
         uses: actions/upload-artifact@v3
         with:
           name: static-site
-          path: githubactionTest/.next/
+          path: .next/
